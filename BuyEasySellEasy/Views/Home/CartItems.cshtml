@@ -1,0 +1,47 @@
+﻿@model List<BuyEasySellEasy.Models.Products>
+@{
+    ViewBag.Title = "CartItems";
+}
+<style>
+    img {
+        height: 150px;
+        width: 150px;
+    }
+</style>
+@{
+    long Amount = 0;
+}
+
+<h2>Cart Items</h2>
+@foreach (var item in Model)
+{
+    <div class="card mt-2">
+        <div class="card-header">
+            @item.ProductName
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <a class="col-md-3" href="/Home/ViewProduct?id=@item.ProductId">
+                    <img class="card-img-top" src="data:image;base64,@item.Photo1" alt="Card image cap">
+                </a>
+                <p class="card-text col-md-6 align-self-center">@item.Description</p>
+                @{ 
+                    Amount += item.Price;
+                }
+                <h5 class="card-text col-md-2 align-self-center">@item.Price/-</h5>
+                <a href="/Home/Delete?productid=@item.ProductId" class="btn btn-primary  col-md-1 align-self-center">Delete</a>
+            </div>
+        </div>
+    </div>
+}
+<div class="row mt-5">
+    @if (Model.Count > 0)
+    {
+        <h5 class="col-md-10">Total Amount = Rs @Amount /- </h5>
+        <a href="/Home/Delete?ProceedtoPayment?amount=@Amount" class="btn btn-success col-md-2">Proceed To Payment</a>
+    }
+    else
+    {
+        <h4>@User.Identity.Name.Split('@')[0] Your Cart is Empty</h4>
+    }
+</div>
